@@ -41,8 +41,9 @@ namespace ConsoleApp2
             string id = GetUserId(RecordRow);
             string name = RecordRow.ChildNodes[3].InnerText;
             string hex = GetColorFromUserId(id);
+            string url = PlayerURL(RecordRow);
 
-            return new Player(name, hex);
+            return new Player(name, hex, url);
             //return RecordRow.ChildNodes[3].InnerText;
         }
 
@@ -55,6 +56,12 @@ namespace ConsoleApp2
             time = Regex.Replace(time, @"\s{2,}", "").Replace("(untied!)", "").Trim();
 
             return time;
+        }
+
+        private static string PlayerURL(HtmlNode RecordRow)
+        {
+            string userpage = Regex.Match(RecordRow.ChildNodes[3].InnerHtml, "href=\"(.*?)\"").Groups[1].Value;
+            return string.Concat(UrlRankings, userpage);
         }
 
         private static bool HasVideo(HtmlNode RecordRow)

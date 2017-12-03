@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using HtmlAgilityPack;
-using System.Net;
-using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.IO;
 
@@ -91,7 +87,7 @@ namespace ConsoleApp2
 
             //If the player doesn't exist, add him or her to the game.
             if (game.Players.FindIndex(a => a.Name == player.Name) == -1)
-                game.Players.Add(new Player(player.Name, player.HexColor));
+                game.Players.Add(new Player(player.Name, player.HexColor, player.URL));
 
             //Now get the fresh, new index of the player.
             int index = game.Players.FindIndex(a => a.Name == player.Name);
@@ -128,7 +124,14 @@ Also included are the point values, and whether the time was a [color=yellow]TWR
 
             foreach (Player player in game.Players)
             {
-                s.AppendLine($@"[color={player.HexColor}][size=10pt][b]{player.Name}[/b][/size][/color]");
+                //string gameLink = game.Name == "GE" ? "goldeneye" : "perfect-dark";
+                //string timespage = $@"https://rankings.the-elite.net/~{player.Name.Replace(" ", "+")}/" + gameLink;
+
+                //s.AppendLine($@"[color={player.HexColor}][size=10pt][b][url={timespage}]{player.Name}[/url][/b][/size][/color]");
+
+                string game_append = game.Name == "GE" ? "/goldeneye" : "/perfect-dark";
+
+                s.AppendLine($@"[color={player.HexColor}][size=10pt][b][url={player.URL + game_append}]{player.Name}[/url][/b][/size][/color]");
 
                 foreach (Record record in player.Records)
                 {
@@ -139,8 +142,8 @@ Also included are the point values, and whether the time was a [color=yellow]TWR
                     else
                         time = $"{record.Time}";
 
-                    string style = record.IsUWR  ? $"[color=orange]{time}[/color] (Untied!)" :
-                                   record.IsWR   ? $"[color=yellow]{time}[/color] (TWR)"     : 
+                    string style = record.IsUWR ? $"[color=orange]{time}[/color] (Untied!)" :
+                                   record.IsWR ? $"[color=yellow]{time}[/color] (TWR)" :
                                                      $@"{time} ({record.Points} points)";
                     string isProven = "";
 
@@ -198,7 +201,7 @@ Also included are the point values, and whether the time was a [color=yellow]TWR
                     else
                         s.Append($@"and [color={x.HexColor}][size=10pt][b]{x.Name}[/b][/size][/color] ");
                 }
-                    
+
                 s.AppendLine($"who all gained [b]{mostPtsGain[0].PointsGain}[/b] points last month!");
             }
 

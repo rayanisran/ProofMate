@@ -15,6 +15,7 @@ namespace ConsoleApp2
         int _wrcount;
         int _uwrcount;
         int _gain;
+        string _url;
 
         public List<Record> Records = new List<Record>();
 
@@ -25,10 +26,11 @@ namespace ConsoleApp2
             _hexcolor = hexcolor;
         }*/
 
-        public Player(string name, string hexcolor)
+        public Player(string name, string hexcolor, string url)
         {
             _name = name;
             _hexcolor = hexcolor;
+            _url = url;
         }
 
         /*public string ID
@@ -45,6 +47,11 @@ namespace ConsoleApp2
         public string HexColor
         {
             get { return _hexcolor; }
+        }
+
+        public string URL
+        {
+            get { return _url; }
         }
 
         public int WRCount

@@ -104,10 +104,5 @@ namespace ConsoleApp2
         {
             get { return string.IsNullOrEmpty(VideoLink) ? false : true; }
         }
-
-        public int CompareTo(Record other)
-        {
-            return _rectype.CompareTo(other._rectype);
-        }
     }
 }
